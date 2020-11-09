@@ -29,7 +29,6 @@ func getRandomUser() UserInfo {
 		gender = 1
 	}
 
-	fmt.Println()
 	email := randomdata.Email()
 	email = strings.Split(email, "@")[0] + "@yopmail.com"
 	userInfo := UserInfo{
@@ -137,7 +136,8 @@ func sendRequest(userInfo UserInfo) {
 
 	req, _ := http.NewRequest("POST", url, payload)
 
-	req.Header.Add("cookie", "__cfduid=db7720dcb09c960da705547abcd63deae1604920044; agir_id=9ae4a99e-90db-4cf5-9f6f-197774ad3536; agir_email=marinelepen@yopmail.com; agir_location_zip=75003; agir_first_name=Marine; agir_last_name=Lepen")
+	cookie := fmt.Sprintf("__cfduid=db7720dcb09c960da705547abcd63deae1604920044; agir_id=9ae4a99e-90db-4cf5-9f6f-197774ad3536; agir_email=%s; agir_location_zip=42000; agir_first_name=%s; agir_last_name=%s", userInfo.Email, userInfo.FirstName, userInfo.LastName)
+	req.Header.Add("cookie", cookie)
 	req.Header.Add("authority", "noussommespour.fr")
 	req.Header.Add("accept", "application/json, text/javascript, */*; q=0.01")
 	req.Header.Add("x-requested-with", "XMLHttpRequest")
@@ -153,6 +153,5 @@ func sendRequest(userInfo UserInfo) {
 	res, _ := http.DefaultClient.Do(req)
 
 	defer res.Body.Close()
-	//body, _ := ioutil.ReadAll(res.Body)
 	fmt.Println(res.Status)
 }
