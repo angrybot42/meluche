@@ -85,7 +85,7 @@ func validEmail(info UserInfo) {
 func getNumEmail(email string) (string, error) {
 	fmt.Println("get num email...")
 
-	cmd := exec.Command("/home/lambert/yogo_linux_amd64", "inbox", "list", email, "10")
+	cmd := exec.Command("./yogo_linux_amd64", "inbox", "list", email, "10")
 	output, err := cmd.Output()
 	if err != nil {
 		fmt.Println(err)
@@ -104,7 +104,7 @@ func getNumEmail(email string) (string, error) {
 func getLink(email, nbEmail string) (string, error) {
 	fmt.Println("get link...", email, nbEmail)
 
-	cmd := exec.Command("/home/lambert/yogo_linux_amd64", "inbox", "show", email, nbEmail)
+	cmd := exec.Command("./yogo_linux_amd64", "inbox", "show", email, nbEmail)
 	output, err := cmd.Output()
 	if err != nil {
 		fmt.Println("Bot probably detected :/")
