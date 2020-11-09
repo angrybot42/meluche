@@ -19,7 +19,6 @@ func main() {
 		fmt.Println(userInfo)
 
 		sendRequest(userInfo)
-		time.Sleep(2 * time.Second)
 		validEmail(userInfo)
 	}
 }
@@ -55,13 +54,13 @@ func rand() bool {
 
 func validEmail(info UserInfo) {
 	fmt.Println("valid email...")
+	time.Sleep(5 * time.Second)
 
 	email := strings.Split(info.Email, "@")[0]
 
 	nbEmail, err := getNumEmail(email)
 	if err != nil {
 		fmt.Println(err)
-		time.Sleep(5 * time.Second)
 		validEmail(info)
 		return
 	}
