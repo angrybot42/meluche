@@ -4,7 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"os"
 	"os/exec"
+	"runtime"
 	"strings"
 	"time"
 
@@ -85,7 +87,7 @@ func validEmail(info UserInfo) {
 func getNumEmail(email string) (string, error) {
 	fmt.Println("get num email...")
 
-	cmd := exec.Command("./yogo_linux_amd64", "inbox", "list", email, "10")
+	cmd := exec.Command(getPathToCorrectYogo(), "inbox", "list", email, "10")
 	output, err := cmd.Output()
 	if err != nil {
 		fmt.Println(err)
@@ -104,7 +106,7 @@ func getNumEmail(email string) (string, error) {
 func getLink(email, nbEmail string) (string, error) {
 	fmt.Println("get link...", email, nbEmail)
 
-	cmd := exec.Command("./yogo_linux_amd64", "inbox", "show", email, nbEmail)
+	cmd := exec.Command(getPathToCorrectYogo(), "inbox", "show", email, nbEmail)
 	output, err := cmd.Output()
 	if err != nil {
 		fmt.Println("Bot probably detected :/")
@@ -117,6 +119,19 @@ func getLink(email, nbEmail string) (string, error) {
 		}
 	}
 	return "", errors.New("link not found")
+}
+
+func getPathToCorrectYogo() string {
+	switch runtime.GOOS {
+	case "windows":
+		return "./yogo_windows_amd64.exe"
+	case "linux":
+		return  "./yogo_linux_amd64"
+	default:
+		fmt.Println(runtime.GOOS, "not implemented yet")
+		os.Exit(1)
+	}
+	return ""
 }
 
 type UserInfo struct {
